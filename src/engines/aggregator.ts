@@ -1,9 +1,22 @@
 import { Context } from 'hono';
 import { wikipediaEngine } from './wikipedia';
 import { hackerNewsEngine } from './hackernews';
+import { duckduckgoEngine } from './duckduckgo';
+import { googleEngine } from './google';
+import { bingEngine } from './bing';
+import { redditEngine } from './reddit';
+import { githubEngine } from './github';
+import { stackOverflowEngine } from './stackoverflow';
+import { arxivEngine } from './arxiv';
+import { npmEngine } from './npm';
+import { braveEngine } from './brave';
 import { SearchResult } from '../types';
 
-const ENGINES = [wikipediaEngine, hackerNewsEngine];
+const ENGINES = [
+  wikipediaEngine, hackerNewsEngine, duckduckgoEngine, 
+  googleEngine, bingEngine, redditEngine, githubEngine, 
+  stackOverflowEngine, arxivEngine, npmEngine, braveEngine
+];
 
 export const searchHandler = async (c: Context) => {
   const query = c.req.query('q');

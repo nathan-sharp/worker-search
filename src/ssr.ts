@@ -1,9 +1,22 @@
 import { Context } from 'hono';
 import { wikipediaEngine } from './engines/wikipedia';
 import { hackerNewsEngine } from './engines/hackernews';
+import { duckduckgoEngine } from './engines/duckduckgo';
+import { googleEngine } from './engines/google';
+import { bingEngine } from './engines/bing';
+import { redditEngine } from './engines/reddit';
+import { githubEngine } from './engines/github';
+import { stackOverflowEngine } from './engines/stackoverflow';
+import { arxivEngine } from './engines/arxiv';
+import { npmEngine } from './engines/npm';
+import { braveEngine } from './engines/brave';
 import { SearchResult } from './types';
 
-const ENGINES = [wikipediaEngine, hackerNewsEngine];
+const ENGINES = [
+  wikipediaEngine, hackerNewsEngine, duckduckgoEngine, 
+  googleEngine, bingEngine, redditEngine, githubEngine, 
+  stackOverflowEngine, arxivEngine, npmEngine, braveEngine
+];
 
 function escapeHTML(str: string): string {
   if (!str) return '';
