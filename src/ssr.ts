@@ -113,6 +113,10 @@ export const ssrSearchHandler = async (c: Context) => {
       ${paginationHtml}
     </div>
   </main>
+
+  <footer class="site-footer">
+    Built by <a href="https://njs.dev" target="_blank" rel="noopener noreferrer">Nathan Sharp</a>
+  </footer>
 </body>
 </html>`;
 

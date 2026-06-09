@@ -192,3 +192,28 @@ body.has-searched .search-buttons {
 .hidden {
   display: none !important;
 }
+
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #666;
+  border-top: 1px solid #E5E5E5;
+  margin-top: 40px;
+  background-color: #F5F5F5;
+  font-family: Arial, sans-serif;
+}
+
+.site-footer a {
+  color: #0000CC;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+body.has-searched .site-footer {
+  text-align: left;
+  padding-left: 80px;
+}
