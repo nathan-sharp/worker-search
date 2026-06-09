@@ -5,6 +5,29 @@ export const googleEngine: SearchEngine = {
   name: 'Google',
   async search(query: string, page: number, env: any): Promise<SearchResult[]> {
     try {
+      if (env?.GOOGLE_API_KEY && env?.GOOGLE_CX) {
+        const url = new URL('https://customsearch.googleapis.com/customsearch/v1');
+        url.searchParams.set('key', env.GOOGLE_API_KEY);
+        url.searchParams.set('cx', env.GOOGLE_CX);
+        url.searchParams.set('q', query);
+        if (page > 1) {
+          url.searchParams.set('start', (((page - 1) * 10) + 1).toString());
+        }
+
+        const response = await fetch(url.toString());
+        if (!response.ok) return [];
+
+        const data = await response.json() as any;
+        const items = data.items || [];
+        
+        return items.map((item: any) => ({
+          url: item.link,
+          title: item.title,
+          snippet: item.snippet,
+          source: 'Google (API)'
+        }));
+      }
+
       const url = new URL('https://www.google.com/search');
       url.searchParams.set('q', query);
       if (page > 1) {

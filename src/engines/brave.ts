@@ -5,6 +5,33 @@ export const braveEngine: SearchEngine = {
   name: 'Brave Search',
   async search(query: string, page: number, env: any): Promise<SearchResult[]> {
     try {
+      if (env?.BRAVE_API_KEY) {
+        const url = new URL('https://api.search.brave.com/res/v1/web/search');
+        url.searchParams.set('q', query);
+        if (page > 1) {
+          url.searchParams.set('offset', (page - 1).toString());
+        }
+
+        const response = await fetch(url.toString(), {
+          headers: { 
+            'Accept': 'application/json',
+            'X-Subscription-Token': env.BRAVE_API_KEY 
+          }
+        });
+        
+        if (!response.ok) return [];
+        
+        const data = await response.json() as any;
+        const items = data.web?.results || [];
+        
+        return items.map((item: any) => ({
+          url: item.url,
+          title: item.title,
+          snippet: item.description,
+          source: 'Brave Search (API)'
+        }));
+      }
+
       const url = new URL('https://search.brave.com/search');
       url.searchParams.set('q', query);
       if (page > 1) {

@@ -5,6 +5,30 @@ export const bingEngine: SearchEngine = {
   name: 'Bing',
   async search(query: string, page: number, env: any): Promise<SearchResult[]> {
     try {
+      if (env?.BING_API_KEY) {
+        const url = new URL('https://api.bing.microsoft.com/v7.0/search');
+        url.searchParams.set('q', query);
+        if (page > 1) {
+          url.searchParams.set('offset', ((page - 1) * 10).toString());
+        }
+
+        const response = await fetch(url.toString(), {
+          headers: { 'Ocp-Apim-Subscription-Key': env.BING_API_KEY }
+        });
+        
+        if (!response.ok) return [];
+        
+        const data = await response.json() as any;
+        const items = data.webPages?.value || [];
+        
+        return items.map((item: any) => ({
+          url: item.url,
+          title: item.name,
+          snippet: item.snippet,
+          source: 'Bing (API)'
+        }));
+      }
+
       const url = new URL('https://www.bing.com/search');
       url.searchParams.set('q', query);
       if (page > 1) {

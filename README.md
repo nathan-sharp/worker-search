@@ -21,6 +21,39 @@ Before setting up the project, ensure you have the following installed:
 
 ## Setup Instructions
 
+### Optional API Keys (Recommended for Stability)
+
+While this search engine uses experimental scrapers that do not require API keys, Cloudflare Worker IPs are often blocked by Google and Bing. If you want 100% stable results, you can provide official API keys via Cloudflare's environment variables. 
+
+If these keys are provided, the engine will automatically switch to using the official JSON APIs instead of scraping:
+
+- **Google**: Requires `GOOGLE_API_KEY` and `GOOGLE_CX` (from Google Programmable Search)
+- **Bing**: Requires `BING_API_KEY` (from Azure Cognitive Services)
+- **Brave Search**: Requires `BRAVE_API_KEY`
+
+**Setting Keys Locally:**
+Create a `.dev.vars` file in the project root:
+```env
+GOOGLE_API_KEY=your_key
+GOOGLE_CX=your_cx
+BING_API_KEY=your_key
+BRAVE_API_KEY=your_key
+```
+
+**Setting Keys in Production (CLI):**
+Use Wrangler to add them as secrets:
+```bash
+npx wrangler secret put GOOGLE_API_KEY
+```
+
+**Setting Keys in Production (Cloudflare Dashboard):**
+1. Log in to the Cloudflare Dashboard and select your account.
+2. Navigate to **Workers & Pages** and click on your deployed Worker.
+3. Go to the **Settings** tab and select **Variables and Secrets** from the sidebar.
+4. Click **Add variable**. Set the **Type** to **Secret**.
+5. Enter the key name (e.g., `GOOGLE_API_KEY`) and paste your key in the value box.
+6. Click **Save and deploy**.
+
 1. **Clone or Download the Repository**
    Navigate to the project directory:
    ```bash
