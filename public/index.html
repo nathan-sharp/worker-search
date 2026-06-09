@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Nexus Meta Search">
+</head>
+<body>
+  <main class="app-container">
+    <header class="header">
+      <h1 class="logo">
+        <span style="color:#0039b6">N</span><span style="color:#c41200">e</span><span style="color:#f3c518">x</span><span style="color:#0039b6">u</span><span style="color:#30a72f">s</span>
+      </h1>
+      <div class="search-container">
+        <form id="search-form" class="search-box" action="/search" method="GET">
+          <input type="text" id="search-input" name="q" autocomplete="off" autofocus>
+          <div class="search-buttons">
+            <button type="submit" id="search-btn">Nexus Search</button>
+          </div>
+        </form>
+      </div>
+    </header>
+
+    <div id="loader" class="loader hidden">Searching...</div>
+
+    <div id="results-container" class="results-container hidden">
+      <p id="results-stats" class="stats">Found 0 results</p>
+      <div id="results-list" class="results-list">
+        <!-- Results will be injected here -->
+      </div>
+    </div>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

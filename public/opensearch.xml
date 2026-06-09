@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Nexus Search</ShortName>
+  <Description>Search the web with Nexus Meta Search</Description>
+  <Url type="text/html" template="http://127.0.0.1:8787/?q={searchTerms}"/>
+  <Url type="application/json" rel="suggestions" template="http://127.0.0.1:8787/api/search?q={searchTerms}"/>
+  <InputEncoding>UTF-8</InputEncoding>
+</OpenSearchDescription>

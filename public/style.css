@@ -1,0 +1,172 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  color: #000;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 15vh;
+}
+
+/* Initially centered UI */
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 80px;
+  font-weight: normal;
+  margin: 0;
+  letter-spacing: -2px;
+}
+
+.search-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 0 10px;
+}
+
+.search-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+#search-input {
+  width: 100%;
+  height: 25px;
+  border: 1px solid #7F9DB9;
+  padding: 2px 5px;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-buttons {
+  margin-top: 15px;
+}
+
+#search-btn {
+  background-color: #E5E5E5;
+  border: 1px solid #999;
+  color: #000;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+
+/* Post-search layout */
+body.has-searched .app-container {
+  align-items: flex-start;
+  padding-top: 0;
+}
+
+body.has-searched .header {
+  padding: 10px;
+  margin-bottom: 0;
+  border-bottom: 1px solid #3366CC;
+  width: 100%;
+  background-color: #F5F5F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+body.has-searched .logo {
+  font-size: 30px;
+  margin-right: 20px;
+}
+
+body.has-searched .search-container {
+  padding: 0;
+  max-width: none;
+  display: inline-block;
+}
+
+body.has-searched .search-box {
+  flex-direction: row;
+  align-items: center;
+}
+
+body.has-searched #search-input {
+  width: 400px;
+  margin-right: 10px;
+}
+
+body.has-searched .search-buttons {
+  margin-top: 0;
+}
+
+/* Results */
+.results-container {
+  padding: 20px;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.stats {
+  color: #000;
+  background-color: #E5ECF9;
+  border-top: 1px solid #3366CC;
+  font-size: 13px;
+  padding: 5px;
+  margin: 0 0 15px 0;
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.result-title {
+  margin: 0;
+  font-size: medium;
+  font-weight: normal;
+}
+
+.result-title a {
+  color: #0000CC;
+  text-decoration: underline;
+}
+
+.result-title a:visited {
+  color: #551A8B;
+}
+
+.result-snippet {
+  color: #000;
+  font-size: small;
+  line-height: 1.2;
+  margin: 2px 0;
+}
+
+.result-url {
+  color: #008000;
+  font-size: small;
+}
+
+.result-source {
+  color: #666;
+}
+
+.loader {
+  padding: 20px;
+  color: #000;
+  font-size: small;
+}
+
+.hidden {
+  display: none !important;
+}
