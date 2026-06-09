@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const query = searchInput.value.trim();
     
     if (!query) return;
-    performSearch(query);
+    performSearch(query, 1);
   });
 
-  async function performSearch(query) {
+  async function performSearch(query, page = 1) {
     // Update URL without reloading the page
     const newUrl = new URL(window.location);
     newUrl.searchParams.set('q', query);
+    newUrl.searchParams.set('p', page);
     window.history.pushState({ path: newUrl.toString() }, '', newUrl.toString());
 
     // UI State updates
@@ -25,9 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsContainer.classList.add('hidden');
     loader.classList.remove('hidden');
     resultsList.innerHTML = '';
+    document.title = `${query} - Search`;
 
     try {
-      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      const response = await fetch(`/api/search?q=${encodeURIComponent(query)}&p=${page}`);
       
       if (!response.ok) {
         throw new Error('Search failed');
@@ -36,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
       
       loader.classList.add('hidden');
-      renderResults(data);
+      renderResults(data, query, page);
     } catch (error) {
       console.error(error);
       loader.classList.add('hidden');
@@ -45,9 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function renderResults(data) {
+  function renderResults(data, query, currentPage) {
     if (!data.results || data.results.length === 0) {
-      resultsStats.textContent = `No results found for "${data.query}"`;
+      resultsStats.textContent = `No results found for "${query}"`;
       resultsContainer.classList.remove('hidden');
       return;
     }
@@ -77,6 +79,32 @@ document.addEventListener('DOMContentLoaded', () => {
       resultsList.appendChild(card);
     });
 
+    let paginationHtml = '<div class="pagination">';
+    for (let i = 1; i <= 10; i++) {
+      if (i === currentPage) {
+        paginationHtml += `<span class="page-num current">${i}</span>`;
+      } else {
+        paginationHtml += `<a class="page-num" href="#" data-page="${i}">${i}</a>`;
+      }
+    }
+    if (currentPage < 10) {
+      paginationHtml += `<a class="page-num next" href="#" data-page="${currentPage + 1}">Next</a>`;
+    }
+    paginationHtml += '</div>';
+
+    const paginationContainer = document.createElement('div');
+    paginationContainer.innerHTML = paginationHtml;
+    resultsList.appendChild(paginationContainer);
+
+    paginationContainer.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const p = parseInt(a.getAttribute('data-page'));
+        performSearch(query, p);
+        window.scrollTo(0, 0);
+      });
+    });
+
     resultsContainer.classList.remove('hidden');
   }
 
@@ -93,8 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Check URL params on load
   const urlParams = new URLSearchParams(window.location.search);
   const q = urlParams.get('q');
+  const p = parseInt(urlParams.get('p')) || 1;
   if (q) {
     searchInput.value = q;
-    performSearch(q);
+    performSearch(q, p);
   }
 });

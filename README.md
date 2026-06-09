@@ -1,6 +1,6 @@
-# Nexus Meta Search
+# Meta Search Engine
 
-Nexus is a blazing fast, serverless meta search engine powered by [Cloudflare Workers](https://workers.cloudflare.com/) and [Hono.js](https://hono.dev/). It aggregates results from multiple search engines (such as Wikipedia and Hacker News) in parallel and serves a premium, modern frontend interface directly from the edge.
+This project is a blazing fast, serverless meta search engine powered by [Cloudflare Workers](https://workers.cloudflare.com/) and [Hono.js](https://hono.dev/). It aggregates results from multiple search engines (such as Wikipedia and Hacker News) in parallel and serves a premium, modern frontend interface directly from the edge.
 
 ## Features
 

@@ -2,11 +2,12 @@ import { SearchEngine, SearchResult } from '../types';
 
 export const hackerNewsEngine: SearchEngine = {
   name: 'Hacker News',
-  async search(query: string, env: any): Promise<SearchResult[]> {
+  async search(query: string, page: number, env: any): Promise<SearchResult[]> {
     try {
       const url = new URL('https://hn.algolia.com/api/v1/search');
       url.searchParams.set('query', query);
       url.searchParams.set('hitsPerPage', '10');
+      url.searchParams.set('page', (page - 1).toString());
 
       const response = await fetch(url.toString(), {
         headers: {

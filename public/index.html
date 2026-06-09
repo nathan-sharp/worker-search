@@ -3,21 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nexus</title>
+  <title>Search</title>
   <link rel="stylesheet" href="/style.css">
-  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Nexus Meta Search">
+  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Web Search">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x1F50D;</text></svg>">
 </head>
 <body>
   <main class="app-container">
     <header class="header">
       <h1 class="logo">
-        <span style="color:#0039b6">N</span><span style="color:#c41200">e</span><span style="color:#f3c518">x</span><span style="color:#0039b6">u</span><span style="color:#30a72f">s</span>
+        <a href="/" style="text-decoration:none; color:black;">&#x1F50D;</a>
       </h1>
       <div class="search-container">
         <form id="search-form" class="search-box" action="/search" method="GET">
           <input type="text" id="search-input" name="q" autocomplete="off" autofocus>
           <div class="search-buttons">
-            <button type="submit" id="search-btn">Nexus Search</button>
+            <button type="submit" id="search-btn">Search</button>
           </div>
         </form>
       </div>

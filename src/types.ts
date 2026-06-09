@@ -7,5 +7,5 @@ export interface SearchResult {
 
 export interface SearchEngine {
   name: string;
-  search(query: string, env: any): Promise<SearchResult[]>;
+  search(query: string, page: number, env: any): Promise<SearchResult[]>;
 }

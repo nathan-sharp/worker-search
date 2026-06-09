@@ -2,14 +2,16 @@ import { SearchEngine, SearchResult } from '../types';
 
 export const wikipediaEngine: SearchEngine = {
   name: 'Wikipedia',
-  async search(query: string, env: any): Promise<SearchResult[]> {
+  async search(query: string, page: number, env: any): Promise<SearchResult[]> {
     try {
       const url = new URL('https://en.wikipedia.org/w/api.php');
-      url.searchParams.set('action', 'opensearch');
-      url.searchParams.set('search', query);
-      url.searchParams.set('limit', '10');
-      url.searchParams.set('namespace', '0');
+      url.searchParams.set('action', 'query');
+      url.searchParams.set('list', 'search');
+      url.searchParams.set('srsearch', query);
+      url.searchParams.set('utf8', '1');
       url.searchParams.set('format', 'json');
+      url.searchParams.set('sroffset', ((page - 1) * 10).toString());
+      url.searchParams.set('srlimit', '10');
 
       const response = await fetch(url.toString(), {
         headers: {
@@ -19,18 +21,15 @@ export const wikipediaEngine: SearchEngine = {
 
       if (!response.ok) return [];
 
-      const data = await response.json() as [string, string[], string[], string[]];
-      
-      const titles = data[1] || [];
-      const snippets = data[2] || [];
-      const urls = data[3] || [];
+      const data = await response.json() as any;
+      const searchResults = data.query?.search || [];
 
       const results: SearchResult[] = [];
-      for (let i = 0; i < titles.length; i++) {
+      for (const item of searchResults) {
         results.push({
-          title: titles[i],
-          snippet: snippets[i] || '',
-          url: urls[i],
+          title: item.title,
+          snippet: item.snippet.replace(/<\/?[^>]+(>|$)/g, ""), // strip html
+          url: `https://en.wikipedia.org/?curid=${item.pageid}`,
           source: 'Wikipedia',
         });
       }

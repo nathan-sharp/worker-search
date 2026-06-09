@@ -7,13 +7,15 @@ const ENGINES = [wikipediaEngine, hackerNewsEngine];
 
 export const searchHandler = async (c: Context) => {
   const query = c.req.query('q');
+  const pageStr = c.req.query('p');
+  const page = pageStr ? parseInt(pageStr, 10) : 1;
   
   if (!query) {
     return c.json({ error: 'Missing query parameter "q"' }, 400);
   }
 
   // Create an array of promises for each engine
-  const promises = ENGINES.map(engine => engine.search(query, c.env));
+  const promises = ENGINES.map(engine => engine.search(query, page, c.env));
 
   // Run all engines in parallel
   const results = await Promise.allSettled(promises);

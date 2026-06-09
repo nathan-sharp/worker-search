@@ -17,12 +17,14 @@ function escapeHTML(str: string): string {
 
 export const ssrSearchHandler = async (c: Context) => {
   const query = c.req.query('q');
+  const pageStr = c.req.query('p');
+  const page = pageStr ? parseInt(pageStr, 10) : 1;
   
   if (!query) {
     return c.redirect('/');
   }
 
-  const promises = ENGINES.map(engine => engine.search(query, c.env));
+  const promises = ENGINES.map(engine => engine.search(query, page, c.env));
   const resultsSettled = await Promise.allSettled(promises);
 
   let combinedResults: SearchResult[] = [];
@@ -62,21 +64,35 @@ export const ssrSearchHandler = async (c: Context) => {
     `;
   }
 
+  let paginationHtml = '<div class="pagination">';
+  for (let i = 1; i <= 10; i++) {
+    if (i === page) {
+      paginationHtml += `<span class="page-num current">${i}</span>`;
+    } else {
+      paginationHtml += `<a class="page-num" href="/search?q=${encodeURIComponent(query)}&p=${i}">${i}</a>`;
+    }
+  }
+  if (page < 10) {
+    paginationHtml += `<a class="page-num next" href="/search?q=${encodeURIComponent(query)}&p=${page + 1}">Next</a>`;
+  }
+  paginationHtml += '</div>';
+
   const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${escapeHTML(query)} - Nexus Search</title>
+  <title>${escapeHTML(query)} - Search</title>
   <link rel="stylesheet" href="/style.css">
-  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Nexus Meta Search">
+  <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Web Search">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x1F50D;</text></svg>">
 </head>
 <body class="has-searched">
   <main class="app-container">
     <header class="header">
       <h1 class="logo">
-        <a href="/" style="text-decoration:none;">
-          <span style="color:#0039b6">N</span><span style="color:#c41200">e</span><span style="color:#f3c518">x</span><span style="color:#0039b6">u</span><span style="color:#30a72f">s</span>
+        <a href="/" style="text-decoration:none; color:black;">
+          &#x1F50D;
         </a>
       </h1>
       <div class="search-container">
@@ -94,6 +110,7 @@ export const ssrSearchHandler = async (c: Context) => {
       <div class="results-list">
         ${resultsHtml}
       </div>
+      ${paginationHtml}
     </div>
   </main>
 </body>
